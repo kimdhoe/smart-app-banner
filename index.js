@@ -15,14 +15,14 @@ var root = doc && doc.documentElement;
 // platform dependent functionality
 var mixins = {
 	ios: {
-		appMeta: 'apple-itunes-app',
+		appMeta: 'apple-itunes-app0',
 		iconRels: ['apple-touch-icon-precomposed', 'apple-touch-icon'],
 		getStoreLink: function () {
 			return 'https://itunes.apple.com/' + this.options.appStoreLanguage + '/app/id' + this.appId + "?mt=8";
 		}
 	},
 	android: {
-		appMeta: 'google-play-app',
+		appMeta: 'google-play-app0',
 		iconRels: ['android-touch-icon', 'apple-touch-icon-precomposed', 'apple-touch-icon'],
 		getStoreLink: function () {
 			return 'http://play.google.com/store/apps/details?id=' + this.appId;
@@ -76,13 +76,11 @@ var SmartBanner = function (options) {
 	// - running on standalone mode
 	// - user dismissed banner
 	var unsupported = !this.type || !this.options.store[this.type];
-	var isMobileSafari = (this.type === 'ios' && agent.browser.name === 'Mobile Safari' && parseInt(agent.os.version, 10) >= 6);
-  
 	var runningStandAlone = navigator.standalone;
 	var userDismissed = cookie.get('smartbanner-closed');
 	var userInstalled = cookie.get('smartbanner-installed');
 
-	if (unsupported || isMobileSafari || runningStandAlone || userDismissed || userInstalled) {
+	if (unsupported || runningStandAlone || userDismissed || userInstalled) {
 		return;
 	}
 
@@ -124,17 +122,17 @@ SmartBanner.prototype = {
 
 		sb.className = 'smartbanner smartbanner-' + theme;
 		sb.innerHTML = '<div class="smartbanner-container">' +
-							'<a href="javascript:void(0);" class="smartbanner-close">&times;</a>' +
-							'<span class="smartbanner-icon" style="background-image: url(' + icon + ')"></span>' +
-							'<div class="smartbanner-info">' +
-								'<div class="smartbanner-title">' + this.options.title + '</div>' +
-								'<div>' + this.options.author + '</div>' +
-								'<span>' + inStore + '</span>' +
-							'</div>' +
-							'<a href="' + link + '" class="smartbanner-button">' +
-								'<span class="smartbanner-button-text">' + this.options.button + '</span>' +
-							'</a>' +
-						'</div>';
+			'<a href="javascript:void(0);" class="smartbanner-close">&times;</a>' +
+			'<span class="smartbanner-icon" style="background-image: url(' + icon + ')"></span>' +
+			'<div class="smartbanner-info">' +
+			'<div class="smartbanner-title">' + this.options.title + '</div>' +
+			'<div>' + this.options.author + '</div>' +
+			'<span>' + inStore + '</span>' +
+			'</div>' +
+			'<a href="' + link + '" class="smartbanner-button">' +
+			'<span class="smartbanner-button-text">' + this.options.button + '</span>' +
+			'</a>' +
+			'</div>';
 
 		// there isn’t neccessary a body
 		if (doc.body) {
